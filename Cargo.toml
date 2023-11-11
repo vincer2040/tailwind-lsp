@@ -1,0 +1,30 @@
+[package]
+name = "tailwind-lsp"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+structured-logger.workspace = true
+tailwind-lsp-server = { version = "0.1.0", path = "./lsp" }
+
+[workspace.dependencies]
+anyhow = "1.0.75"
+lsp-server = "0.7.4"
+lsp-types = "0.94.1"
+serde = { version = "1.0.192", features = ["derive"] }
+serde_json = "1.0.108"
+log = { version = "0.4.20", features=["kv_unstable", "kv_unstable_serde"] }
+structured-logger = "1.0.1"
+tree-sitter = "0.20.10"
+tree-sitter-html = "0.19.0"
+
+[workspace]
+members = [
+    "lsp",
+]
