@@ -1,7 +1,7 @@
-use crate::text_store::TEXT_STORE;
+use crate::{text_store::TEXT_STORE, tailwind::tailwind_completion};
 use log::{debug, error, warn};
 use lsp_server::{Notification, Request};
-use lsp_types::CompletionParams;
+use lsp_types::{CompletionContext, CompletionParams, CompletionTriggerKind};
 
 #[derive(serde::Deserialize, Debug)]
 struct Text {
@@ -103,7 +103,23 @@ fn handle_did_change(noti: Notification) {
 }
 
 fn handle_completion(req: Request) {
-    let completion: CompletionParams = serde_json::from_value(req.params).expect("completion params");
+    let completion: CompletionParams =
+        serde_json::from_value(req.params).expect("completion params");
     error!("handle completion: {:?}", completion);
-}
 
+    match completion.context {
+        Some(CompletionContext {
+            trigger_kind: CompletionTriggerKind::TRIGGER_CHARACTER,
+            ..
+        })
+        | Some(CompletionContext {
+            trigger_kind: CompletionTriggerKind::INVOKED,
+            ..
+        }) => {
+            tailwind_completion(completion.text_document_position);
+        }
+        _ => {
+            error!("unhandled completion: {:?}", completion.context);
+        }
+    }
+}

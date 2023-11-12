@@ -16,7 +16,7 @@ pub fn init_text_store() {
     })))
 }
 
-pub fn get_document(uri: Url) -> Option<String> {
+pub fn get_text_document(uri: Url) -> Option<String> {
     return TEXT_STORE
         .get()
         .expect("text store not initialized")

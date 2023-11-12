@@ -15,6 +15,8 @@ use crate::handle::{handle_notification, handle_request};
 mod text_store;
 mod handle;
 mod tailwind;
+mod tree_sitter;
+mod tree_sitter_queries;
 
 pub fn start_lsp() -> Result<()> {
 
